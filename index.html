@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="title" content="Xeno Client Archive">
+        <meta name="description" content="An archive of Xeno Clients. This tool lets you download older Xeno builds.">
+        <meta name="keywords" content="Xeno, Xeno Executor, Roblox, Delta Executor, Krnl, Krnl Executor, Delta, Roblox game, Roblox hacks, Roblox exploits">
+        <meta name="author" content="Xeno-Archive">
+    </head>
+    <body>
+        <div id="topbar">
+            <img src="xeno.png" height="40px">
+            <h2>Xeno Client Archive</h2>
+        </div>
+        <div id="content">
+            <h1>Xeno Client Archive</h1>
+            <p>The best tool for downloading Xeno builds from the past.</p>
+            <button id="explore">Explore Builds</button>
+        </div>
+    </body>
+    <script>
+        console.clear();
+        const $ = function(e){return document.querySelector(e)};
+        $("#explore").addEventListener("click", function(){
+            let cont = $("#content");
+            cont.style.top = "120%";
+            setTimeout(async function(){
+                console.log("Fetching package manifest...")
+                let json = await (await fetch("builds/manifest.json")).json();
+                console.log("Done");
+                console.log("Reading manifest.json");
+                $("#explore").remove();
+                cont.querySelector("h1").textContent = "Explore Builds";
+                cont.querySelector("p").textContent = "Select a build from the list to download it.";
+                let sect = document.createElement("div");
+                sect.style.display = "flex";
+                sect.style.flexDirection = "row";
+                sect.style.justifyContent = "center";
+                let sel = document.createElement("select");
+                console.log(json);
+                for(let key in json){
+                    let value = json[key];
+                    let opt = document.createElement("option");
+                    opt.value = value;
+                    opt.textContent = key;
+                    sel.insertAdjacentElement("afterbegin", opt);
+                }
+                sel.querySelectorAll("*")[0].selected = "selected";
+                sect.append(sel);
+                $("#content").append(sect);
+                console.log("Done");
+                cont.style.top = "50%";
+            },600)
+        })
+    </script>
+    <style>
+        html{
+            height: 100%;
+            background: linear-gradient(rgb(0,0,0), rgb(10,0,30), rgb(20,0,40));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body{
+            margin: 0px;
+        }
+        #content{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            transition: all 1s;
+            h1{
+                font-size: 300%;
+                margin: 5px;
+            }
+            p{
+                font-size: 115%;
+                margin-bottom: 15px;
+            }
+            #explore{
+                padding: 10px;
+                font-size: 115%;
+            }
+            button{
+                border: none;
+                border-radius: 5px;
+                padding: 5px;
+                color: white;
+                background: linear-gradient(rgb(0,255,0), rgb(0,150,0));
+                transition: all 0.25s;
+            }
+            button:hover{
+                scale: 105%;
+            }
+            button:active{
+                scale: 100%;
+                filter: brightness(50%);
+            }
+        }
+        #topbar{
+            display: flex;
+            height: 40px;
+            color: white;
+            padding: 5px;
+            align-items: center;
+            img{
+                margin-right: 5px;
+            }
+        }
+    </style>
+</html>
